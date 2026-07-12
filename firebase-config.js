@@ -9,7 +9,7 @@ import {
 
 // Your Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC1rb8p4KsKaxQK_QVtjWbFE5CI",
+  apiKey: "AIzaSyC1rb8p4KsKaxQK_QVtjWbFE5IStV1F5CI",
   authDomain: "swifttrans-logistics.firebaseapp.com",
   projectId: "swifttrans-logistics",
   storageBucket: "swifttrans-logistics.firebasestorage.app",
@@ -17,6 +17,7 @@ const firebaseConfig = {
   appId: "1:336087148680:web:d3fb690dd18d2337ca973d",
   measurementId: "G-0W702ZGW7M"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
