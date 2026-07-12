@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftTrans Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f3f4f6}
+.sidebar{width:260px;background:#111827;color:#fff;height:100vh;position:fixed}
+.main{margin-left:260px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.menu a{display:block;padding:12px 18px;color:#d1d5db;text-decoration:none}
+.menu a:hover{background:#374151;color:#fff}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h2 style="padding:20px;margin:0;">🚚 SwiftTrans</h2>
+<div class="menu">
+<a href="#">📊 Dashboard</a>
+<a href="#" id="createShipment">📦 Create Shipment</a>
+<a href="#">🚚 Manage Shipments</a>
+<a href="#">📍 Tracking Updates</a>
+<a href="#">📧 Email Center</a>
+<a href="#">⚙️ Settings</a>
+<a href="#" id="logout">🚪 Logout</a>
+</div>
+</div>
+
+<div class="main">
+<header class="bg-white shadow p-5 flex justify-between">
+<h1 class="text-2xl font-bold">Admin Dashboard</h1>
+<span id="adminEmail">Administrator</span>
+</header>
+
+<div class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="card"><h3>Total Shipments</h3><h1 class="text-3xl font-bold" id="totalShipments">0</h1></div>
+<div class="card"><h3>Pending</h3><h1 class="text-3xl font-bold">0</h1></div>
+<div class="card"><h3>In Transit</h3><h1 class="text-3xl font-bold">0</h1></div>
+<div class="card"><h3>Delivered</h3><h1 class="text-3xl font-bold">0</h1></div>
+</div>
+
+<div class="card mt-6">
+<h2 class="text-xl font-bold mb-4">Recent Shipments</h2>
+<table class="w-full border">
+<thead>
+<tr class="bg-gray-100">
+<th class="p-2 border">Tracking ID</th>
+<th class="p-2 border">Receiver</th>
+<th class="p-2 border">Destination</th>
+<th class="p-2 border">Status</th>
+</tr>
+</thead>
+<tbody id="shipmentTable">
+<tr>
+<td class="p-2 border">No shipments yet</td>
+<td class="p-2 border">-</td>
+<td class="p-2 border">-</td>
+<td class="p-2 border">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="card mt-6">
+<h2 class="text-xl font-bold">Next Step</h2>
+<p>This dashboard is ready. The next feature will replace this section with the Create Shipment form connected to Firestore.</p>
+</div>
+
+</div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyC1rb8p4KsKaxQK_QVtjWbFE5IStV1F5CI",
+authDomain:"swifttrans-logistics.firebaseapp.com",
+projectId:"swifttrans-logistics",
+storageBucket:"swifttrans-logistics.firebasestorage.app",
+messagingSenderId:"336087148680",
+appId:"1:336087148680:web:d3fb690dd18d2337ca973d"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+onAuthStateChanged(auth,user=>{
+ if(!user){location.href="admin-login.html";return;}
+ document.getElementById("adminEmail").textContent=user.email;
+});
+
+document.getElementById("logout").onclick=async(e)=>{
+ e.preventDefault();
+ await signOut(auth);
+ location.href="admin-login.html";
+};
+</script>
+</body>
+</html>
