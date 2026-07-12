@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Shipment | SwiftTrans Logistics</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f3f4f6;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:15px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.info{
+    margin-top:25px;
+    display:none;
+}
+
+.item{
+    margin-bottom:15px;
+    padding:15px;
+    background:#f8fafc;
+    border-radius:8px;
+}
+
+.timeline{
+    margin-top:30px;
+}
+
+.timeline-item{
+    border-left:4px solid #2563eb;
+    padding-left:15px;
+    margin-bottom:20px;
+}
+
+.status{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2 class="text-3xl font-bold mb-6">
+Track Shipment
+</h2>
+
+<input
+type="text"
+id="trackingInput"
+placeholder="Enter Tracking ID">
+
+<button id="trackBtn">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+Track Shipment
+
+</button>
+
+<div id="result" class="info">
+
+<h3 class="text-2xl font-bold mb-5">
+
+Shipment Information
+
+</h3>
+
+<div class="item">
+
+<strong>Tracking ID:</strong>
+
+<span id="trackingId"></span>
+
+</div>
+
+<div class="item">
+
+<strong>Customer:</strong>
+
+<span id="customer"></span>
+
+</div>
+
+<div class="item">
+
+<strong>Origin:</strong>
+
+<span id="origin"></span>
+
+</div>
+
+<div class="item">
+
+<strong>Destination:</strong>
+
+<span id="destination"></span>
+
+</div>
+
+<div class="item">
+
+<strong>Current Location:</strong>
+
+<span id="currentLocation"></span>
+
+</div>
+
+<div class="item">
+
+<strong>Status:</strong>
+
+<span id="status" class="status"></span>
+
+</div>
+
+<div class="timeline">
+
+<h3 class="text-xl font-bold mb-4">
+
+Tracking History
+
+</h3>
+
+<div id="history">
+
+No tracking updates yet.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { findShipment } from "./tracking.js";
+
+document.getElementById("trackBtn").onclick = async ()=>{
+
+const trackingId=document.getElementById("trackingInput").value.trim();
+
+if(!trackingId){
+
+alert("Enter a Tracking ID");
+
+return;
+
+}
+
+const shipment=await findShipment(trackingId);
+
+if(!shipment){
+
+alert("Tracking ID not found.");
+
+return;
+
+}
+
+document.getElementById("result").style.display="block";
+
+document.getElementById("trackingId").textContent=shipment.trackingId;
+
+document.getElementById("customer").textContent=shipment.customer;
+
+document.getElementById("origin").textContent=shipment.origin;
+
+document.getElementById("destination").textContent=shipment.destination;
+
+document.getElementById("currentLocation").textContent=shipment.currentLocation;
+
+document.getElementById("status").textContent=shipment.status;
+
+let html="";
+
+if(shipment.trackingHistory){
+
+shipment.trackingHistory.forEach(item=>{
+
+html+=`
+
+<div class="timeline-item">
+
+<h4>${item.status}</h4>
+
+<p>${item.location}</p>
+
+<small>${item.message}</small>
+
+</div>
+
+`;
+
+});
+
+}else{
+
+html="No tracking updates available.";
+
+}
+
+document.getElementById("history").innerHTML=html;
+
+};
+
+</script>
+
+</body>
+</html>
