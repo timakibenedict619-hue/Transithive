@@ -1,0 +1,4 @@
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {getFirestore,collection,getDocs} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+const db=getFirestore(initializeApp({apiKey:'AIzaSyC1rb8p4KsKaxQK_QVtjWbFE5IStV1F5CI',authDomain:'swifttrans-logistics.firebaseapp.com',projectId:'swifttrans-logistics',storageBucket:'swifttrans-logistics.firebasestorage.app',messagingSenderId:'336087148680',appId:'1:336087148680:web:d3fb690dd18d2337ca973d'}));
+document.getElementById('trackBtn').onclick=async()=>{const id=document.getElementById('trackingId').value;const snap=await getDocs(collection(db,'shipments'));let out='Not found';snap.forEach(d=>{const s=d.data();if(s.trackingId===id){out=`<p>${s.status}</p><p>${s.currentLocation}</p>`;}});document.getElementById('result').innerHTML=out;}
