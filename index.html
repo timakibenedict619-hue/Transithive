@@ -1007,11 +1007,22 @@
 
         trackNow.addEventListener("click", () => {
             const id = document.getElementById("trackingNumber").value.trim();
-            if (id === "") {
-                alert("Please enter your Tracking ID.");
-                return;
-            }
-            window.location.href = "tracking.html?id=" + encodeURIComponent(id);
+
+if (id === "") {
+    alert("Please enter your Tracking ID.");
+    return;
+}
+
+// Display the tracking information on this page
+document.getElementById("trackingResult").innerHTML =
+    "<h3>Tracking ID: " + id + "</h3>" +
+    "<p>Status: In Transit</p>" +
+    "<p>Current Location: New York, USA</p>";
+            
+              
+                
+            
+      
             
             
         });
