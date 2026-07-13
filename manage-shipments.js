@@ -174,21 +174,71 @@ window.deleteShipment = async function(id) {
 };
 
 // Placeholder Functions
-window.location.href = `view-shipment.html?id=${doc.id}`;
+// View Shipment
+window.viewShipment = function(id){
 
-window.location.href = `edit-shipment.html?id=${doc.id}`;
-
-
-
-
-
-    
+    window.location.href = `view-shipment.html?id=${id}`;
 
 };
 
-window.sendEmail = function(id) {
+// Edit Shipment
+window.editShipment = function(id){
 
-    alert("Send email for shipment: " + id);
+    window.location.href = `edit-shipment.html?id=${id}`;
+
+};
+
+// Send Email
+import { initializeEmail, sendShipmentEmail } from "./email.js";
+import { getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+initializeEmail();
+
+window.sendEmail = async function(id){
+
+    try{
+
+        const shipmentRef = doc(db,"shipments",id);
+
+        const snapshot = await getDoc(shipmentRef);
+
+        if(!snapshot.exists()){
+
+            alert("Shipment not found.");
+
+            return;
+
+        }
+
+        const shipment = snapshot.data();
+
+        await sendShipmentEmail({
+
+            customerName: shipment.receiverName || shipment.customer,
+
+            customerEmail: shipment.receiverEmail || shipment.email,
+
+            trackingId: shipment.trackingId,
+
+            status: shipment.status,
+
+            origin: shipment.origin,
+
+            destination: shipment.destination
+
+        });
+
+        alert("Email sent successfully.");
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
 
 };
 
