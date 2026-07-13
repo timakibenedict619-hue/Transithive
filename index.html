@@ -1006,12 +1006,21 @@
         });
 
         trackNow.addEventListener("click", () => {
-            const id = document.getElementById("trackingNumber").value.trim();
-            if (id === "") {
-                alert("Please enter your Tracking ID.");
-                return;
-            }
-            alert("Tracking shipment: " + id + "\n\n(Status would load here in a full implementation.)");
+    const id = document.getElementById("trackingNumber").value.trim();
+
+    if (id === "") {
+        alert("Please enter your Tracking ID.");
+        return;
+    }
+
+    window.location.href = "tracking.html?tracking=" + encodeURIComponent(id);
+});
+          
+            
+            
+              
+            
+            
             trackingModal.classList.add("hidden");
             trackingModal.classList.remove("flex");
         });
