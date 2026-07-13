@@ -33,7 +33,7 @@ loginBtn.addEventListener("click", async () => {
 
     await signInWithEmailAndPassword(auth, email, password);
 
-    window.location.href = "admin.html";
+    window.location.href = "dashboard.html";
 
   } catch (err) {
 
