@@ -1,8 +1,7 @@
-import { db } from "./firebase.js";
-
 import {
   collection,
-  getDocs
+  getDocs,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const content = document.getElementById("content");
@@ -64,9 +63,13 @@ async function loadShipments(){
         </h2>
 
         <button
-        class="bg-blue-600 text-white px-5 py-3 rounded-lg mb-6">
-        + Create Shipment
-        </button>
+id="createShipmentBtn"
+class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg mb-6">
++ Create Shipment
+</button>
+        
+        
+        
 
         <div id="shipmentList">
         Loading...
@@ -127,7 +130,66 @@ async function loadShipments(){
         }
 
         document.getElementById("shipmentList").innerHTML=html;
+document.getElementById("createShipmentBtn").addEventListener("click", () => {
 
+content.innerHTML = `
+
+<h2 class="text-3xl font-bold mb-6">
+Create Shipment
+</h2>
+
+<div class="bg-white rounded-xl shadow p-6 space-y-4">
+
+<input
+id="customer"
+class="w-full border rounded-lg p-3"
+placeholder="Customer Name">
+
+<input
+id="email"
+class="w-full border rounded-lg p-3"
+placeholder="Customer Email">
+
+<input
+id="phone"
+class="w-full border rounded-lg p-3"
+placeholder="Phone Number">
+
+<input
+id="origin"
+class="w-full border rounded-lg p-3"
+placeholder="Origin">
+
+<input
+id="destination"
+class="w-full border rounded-lg p-3"
+placeholder="Destination">
+
+<select
+id="status"
+class="w-full border rounded-lg p-3">
+
+<option>Pending</option>
+<option>In Transit</option>
+<option>Delivered</option>
+
+</select>
+
+<button
+id="saveShipment"
+class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
+
+Save Shipment
+
+</button>
+
+</div>
+
+`;
+
+attachSaveShipment();
+
+});
     }catch(error){
 
         console.error(error);
@@ -231,3 +293,48 @@ settingsBtn?.addEventListener("click",loadSettings);
 // ---------------- Start ----------------
 
 loadDashboard();
+import {
+addDoc,
+collection
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+async function attachSaveShipment(){
+
+document.getElementById("saveShipment").onclick = async () => {
+
+const shipment = {
+
+trackingId:
+"ST" + Math.floor(100000000 + Math.random()*900000000),
+
+customer:
+document.getElementById("customer").value,
+
+email:
+document.getElementById("email").value,
+
+phone:
+document.getElementById("phone").value,
+
+origin:
+document.getElementById("origin").value,
+
+destination:
+document.getElementById("destination").value,
+
+status:
+document.getElementById("status").value,
+
+createdAt:
+new Date()
+
+};
+
+await addDoc(collection(db,"shipments"), shipment);
+
+alert("Shipment Created Successfully");
+
+loadShipments();
+  };
+
+}
