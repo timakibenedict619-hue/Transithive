@@ -11,7 +11,7 @@ import {
     doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    
+   initializeEmail(); 
 
 
 const tableBody = document.getElementById("shipmentTable");
@@ -196,8 +196,8 @@ window.editShipment = function(id){
 };
 
 // Send Email
-import { initializeEmail, sendShipmentEmail } from "./email.js";
-import { getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
 
 initializeEmail();
 
