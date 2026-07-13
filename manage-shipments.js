@@ -174,15 +174,15 @@ window.deleteShipment = async function(id) {
 };
 
 // Placeholder Functions
-window.viewShipment = function(id) {
+window.location.href = `view-shipment.html?id=${doc.id}`;
 
-    alert("View shipment: " + id);
+window.location.href = `edit-shipment.html?id=${doc.id}`;
 
-};
 
-window.editShipment = function(id) {
 
-    alert("Edit shipment: " + id);
+
+
+    
 
 };
 
