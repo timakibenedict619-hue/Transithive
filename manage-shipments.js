@@ -10,8 +10,8 @@ import {
     deleteDoc,
     doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-   initializeEmail(); 
+initializeEmail(); 
+   
 
 
 const tableBody = document.getElementById("shipmentTable");
