@@ -26,10 +26,31 @@ async function trackShipment() {
 
     const trackingId = trackingInput.value.trim();
 
-    if (!trackingId) {
-        alert("Please enter a tracking number.");
-        return;
-    }
+if (!trackingId) {
+
+    resultCard.style.display = "none";
+
+    notFound.style.display = "block";
+
+    notFound.innerHTML = `
+        <div style="text-align:center;padding:30px;">
+            <h3 style="color:#e53935;margin-bottom:10px;">
+                Tracking Number Required
+            </h3>
+            <p style="color:#666;">
+                Please enter your tracking number to track your shipment.
+            </p>
+        </div>
+    `;
+
+    trackingInput.focus();
+
+    return;
+
+}
+        
+        
+    
 
     resultCard.style.display = "none";
     notFound.style.display = "none";
