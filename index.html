@@ -770,7 +770,34 @@
             </div>
         </div>
     </footer>
+<!-- Tracking Modal -->
+<div id="trackingModal"
+     class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[9999]">
 
+    <div class="bg-white rounded-2xl p-8 w-[90%] max-w-md">
+
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Track Shipment</h2>
+
+            <button id="closeTracking">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+
+        <input
+            id="trackingNumber"
+            type="text"
+            placeholder="Enter Tracking ID"
+            class="w-full border rounded-lg px-4 py-3 mb-4">
+
+        <button
+            id="trackNow"
+            class="w-full bg-purple-700 text-white py-3 rounded-lg">
+            Track Shipment
+        </button>
+
+    </div>
+</div>
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
@@ -952,7 +979,35 @@
                 slide.style.transform = `translateY(${scrolled * 0.5}px)`;
             });
         });
+      const trackingBtn = document.getElementById("trackingBtn");
+const trackingModal = document.getElementById("trackingModal");
+const closeTracking = document.getElementById("closeTracking");
+const trackNow = document.getElementById("trackNow");
+
+trackingBtn.addEventListener("click", () => {
+    trackingModal.classList.remove("hidden");
+    trackingModal.classList.add("flex");
+});
+
+closeTracking.addEventListener("click", () => {
+    trackingModal.classList.add("hidden");
+    trackingModal.classList.remove("flex");
+});
+
+trackNow.addEventListener("click", () => {
+
+    const id = document.getElementById("trackingNumber").value.trim();
+
+    if(id === ""){
+        alert("Please enter your Tracking ID.");
+        return;
+    }
+
+    window.location.href = "track.html?id=" + encodeURIComponent(id);
+
+});
     </script>
+        
 <script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;var a=target.closest?target.closest("a[href]"):null;if(!a||!a.href||!/^https?:\/\//.test(a.href))return;if(a.href.replace(/#.*$/,"")===loc)return;if(parent===window)return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*")},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
